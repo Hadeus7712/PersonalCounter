@@ -22,6 +22,9 @@ public class StatisticActivity extends AppCompatActivity {
     private TextView textView;
     private  TextView textSum;
 
+    private TextView monthText;
+    private TextView monthSum;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +35,9 @@ public class StatisticActivity extends AppCompatActivity {
         calendarView = findViewById(R.id.calendarView1);
         textView = findViewById(R.id.textStats);
         textSum = findViewById(R.id.textSum);
+
+        monthSum = findViewById(R.id.monthSum);
+        monthText = findViewById(R.id.monthText);
 
 
         calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
@@ -45,20 +51,30 @@ public class StatisticActivity extends AppCompatActivity {
                 int month1 = month + 1;
                 int day1 = day;
 
-                int count = 0;
+                int daySumCounter = 0;
+                int monthSumCounter = 0;
+
+
+
 
                 for(int i = 0; i < dateTimes.size(); i ++){
                     if(year1 == dateTimes.get(i).getYear() &&
-                            month1 == dateTimes.get(i).getMonth() &&
-                            day1 == dateTimes.get(i).getDay()) {
-                        textView.append(dateTimes.get(i).getHour() + ":" + dateTimes.get(i).getMinute() + ":" + dateTimes.get(i).getSecond() + "\n");
-                        count++;
+                            month1 == dateTimes.get(i).getMonth())
+                    {
+                        if(day1 == dateTimes.get(i).getDay()){
+                            daySumCounter++;
+                            textView.append(daySumCounter + ") " + dateTimes.get(i).getHour() + ":" + dateTimes.get(i).getMinute() + ":" + dateTimes.get(i).getSecond() + "\n");
+                        }
+                        monthSumCounter++;
                     }
                 }
 
-                if(count != 0){
-                    textSum.setText("" + count);
+                if(daySumCounter != 0){
+                    textSum.setText("" + daySumCounter);
                 }
+
+                monthSum.setText("" + monthSumCounter);
+                monthText.setText("Sum in " + Months.values()[month]);
 
             }
         });

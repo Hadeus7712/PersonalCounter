@@ -39,8 +39,11 @@ public class StatisticActivity extends AppCompatActivity {
         monthSum = findViewById(R.id.monthSum);
         monthText = findViewById(R.id.monthText);
 
+<<<<<<< HEAD
 
         dateTimes = JSONHelper.importFromJSON(this);
+=======
+>>>>>>> main
 
         calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override

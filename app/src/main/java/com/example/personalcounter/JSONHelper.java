@@ -12,9 +12,9 @@ import java.util.List;
 
 public class JSONHelper {
 
-    private static final String FILE_NAME = "data.json";
+    //private static final String FILE_NAME = "data.json";
 
-    static void exportToJSON(Context context, List<DateTime> dataList) {
+    static void exportToJSON(Context context, List<DateTime> dataList, String FILE_NAME) {
 
         Gson gson = new Gson();
         DataItems dataItems = new DataItems();
@@ -30,7 +30,7 @@ public class JSONHelper {
 
     }
 
-    static List<DateTime> importFromJSON(Context context) {
+    static List<DateTime> importFromJSON(Context context, String FILE_NAME) {
 
         try(FileInputStream fileInputStream = context.openFileInput(FILE_NAME);
             InputStreamReader streamReader = new InputStreamReader(fileInputStream)){

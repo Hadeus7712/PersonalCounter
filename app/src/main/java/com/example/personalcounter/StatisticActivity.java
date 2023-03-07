@@ -5,14 +5,25 @@ import static com.example.personalcounter.MainActivity.dateTimes;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Dialog;
 import android.content.Intent;
+import android.database.DatabaseErrorHandler;
 import android.os.Bundle;
+import android.text.style.AlignmentSpan;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.CalendarView;
+import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import java.time.DateTimeException;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class StatisticActivity extends AppCompatActivity {
 
@@ -30,6 +41,7 @@ public class StatisticActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_statistic);
+
 
 
         calendarView = findViewById(R.id.calendarView1);
@@ -97,6 +109,7 @@ public class StatisticActivity extends AppCompatActivity {
 
     private void EachDayOutput(DateTime dateTime){
 
+        textDays.setText("");
         for(int i = 0; i < 31; i++){
             textDays.append((i + 1) +") " + SumByDay(new DateTime(dateTime.getYear(), dateTime.getMonth(), 1 + i)) + "\n");
         }
@@ -105,6 +118,7 @@ public class StatisticActivity extends AppCompatActivity {
     private void ByTimeOutput(DateTime dateTime){
 
         int daySumCounter = 0;
+        textView.setText("");
 
         for(int i = 0; i < dateTimes.size(); i ++) {
             if (dateTime.getYear() == dateTimes.get(i).getYear() &&
@@ -128,7 +142,66 @@ public class StatisticActivity extends AppCompatActivity {
 
 
 
+    public List GetCurrentTimes(DateTime dateTime){
+        List<DateTime> result = new ArrayList<>();
 
+        int count = 0;
+
+        for(int i = dateTimes.size() - 1; i >=  0 ; i--){
+            if(dateTimes.get(i).getYear() == dateTime.getYear() &&
+                    dateTimes.get(i).getMonth() == dateTime.getMonth() &&
+                    dateTimes.get(i).getDay() == dateTime.getDay()){
+                result.add(dateTimes.get(i));
+            }
+        }
+
+        return result;
+    }
+
+
+    public void DeleteFunc(View view){
+        Dialog dialog = new Dialog(this);
+        dialog.setContentView(R.layout.delete_layout);
+        dialog.show();
+
+        List<DateTime> currentTimes = GetCurrentTimes(dateTime);
+
+
+        Button button = dialog.findViewById(R.id.closeDeleteLayoutButton);
+
+        ListView listView = dialog.findViewById(R.id.deleteLayoutListView);
+        ArrayAdapter adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, currentTimes);
+        listView.setAdapter(adapter);
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, android.view.View view, int position, long l) {
+
+                DateTime dateTime1 = currentTimes.get(position);
+
+                List<DateTime> result = JSONHelper.importFromJSON(getBaseContext(), "data.json");
+                currentTimes.remove(dateTime1);
+                result.remove(dateTime1);
+                JSONHelper.exportToJSON(getBaseContext(), result, "data.json");
+
+                adapter.notifyDataSetChanged();
+                dateTimes = JSONHelper.importFromJSON(getBaseContext(), "data.json");
+
+                EachDayOutput(dateTime);
+                ByTimeOutput(dateTime);
+                monthSum.setText("Sum in " + Months.values()[dateTime.getMonth() - 1] + ": " + SumByMonth(dateTime));
+
+
+            }
+        });
+
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+    }
 
 
 

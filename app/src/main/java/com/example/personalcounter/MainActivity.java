@@ -37,7 +37,6 @@ public class MainActivity extends AppCompatActivity {
         if(!isStoragePermissionGranted()){
             onDestroy();
         }
-        //isStoragePermissionGranted();
 
         dateTimes = new ArrayList<>();
 

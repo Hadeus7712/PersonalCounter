@@ -2,11 +2,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:id = "@+id/tvPressAdd"
+<!--    <TextView
+        android:id="@+id/tvPressAdd"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/purple_200"
-        android:text = "@string/Null">
-    </TextView>
+        android:background="@color/purple_200"></TextView>-->
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/pngegg"></ImageView>
 </RelativeLayout>

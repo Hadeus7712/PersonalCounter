@@ -3,6 +3,7 @@ package com.example.personalcounter;
 import androidx.annotation.NonNull;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 public class DateTime {
 
@@ -56,5 +57,18 @@ public class DateTime {
     @Override
     public String toString() {
         return year + "-" + month + "-" + day + "--" + hour + ":" + minute + ":" + second;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        DateTime dateTime = (DateTime) o;
+        return second == dateTime.second && minute == dateTime.minute && hour == dateTime.hour && day == dateTime.day && month == dateTime.month && year == dateTime.year;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(second, minute, hour, day, month, year);
     }
 }

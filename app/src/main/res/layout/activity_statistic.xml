@@ -41,13 +41,13 @@
 
     <TextView
         android:id="@+id/textSum"
-        android:layout_width="66dp"
-        android:layout_height="27dp"
-        android:layout_marginTop="16dp"
+        android:layout_width="155dp"
+        android:layout_height="58dp"
+        android:layout_marginTop="8dp"
         android:textColor="@color/black"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.13"
+        app:layout_constraintHorizontal_bias="0.179"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/timeScrollView" />
 
@@ -90,6 +90,20 @@
             android:textColor="@color/black"
             android:textSize="16sp" />
     </ScrollView>
+
+    <Button
+        android:id="@+id/deleteButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="52dp"
+        android:onClick="DeleteFunc"
+        android:text="Delete"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.058"
+        app:layout_constraintStart_toEndOf="@+id/returnButton"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.973" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

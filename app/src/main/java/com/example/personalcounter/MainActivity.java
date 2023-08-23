@@ -24,6 +24,7 @@ import android.Manifest;
 import java.io.File;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -42,6 +43,69 @@ public class MainActivity extends AppCompatActivity {
 
         if(!isFilePresent(this, "data.json"))
             JSONHelper.exportToJSON(this, dateTimes, "data.json");
+
+        dateTimes = JSONHelper.importFromJSON(this, "data.json");
+
+        LastToday();
+        SumToday();
+
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        LastToday();
+        SumToday();
+    }
+
+    private void LastToday(){
+        TextView lastToday = findViewById(R.id.lastToday);
+
+
+        DateTime now;
+        DateTime last;
+
+        if(dateTimes.size() > 0){
+            last = dateTimes.get(dateTimes.size() - 1);
+        }
+        else{
+            last = new DateTime(0, 0, 0);
+        }
+
+
+        now = new DateTime(LocalDateTime.now());
+
+        if(last.getYear() == now.getYear() &&
+                last.getMonth() == now.getMonth() &&
+                last.getDay() == now.getDay()){
+            lastToday.setText("Last time: " + last.getHour() + ":" + last.getMinute() + "." + last.getSecond());
+        }
+        else{
+            lastToday.setText("Not yet");
+        }
+
+        //Log.v("test", "" + dateTimes.get(dateTimes.size() - 1));
+    }
+
+    private void SumToday(){
+        TextView sumToday = findViewById(R.id.todaySum);
+
+        DateTime now = new DateTime(LocalDateTime.now());
+
+        int sum = 0;
+
+        for (int i = 0; i < dateTimes.size(); i++) {
+            if(now.getYear() == dateTimes.get(i).getYear() &&
+                now.getMonth() == dateTimes.get(i).getMonth() &&
+                now.getDay() == dateTimes.get(i).getDay()){
+                sum++;
+            }
+        }
+
+        sumToday.setText("Today: " + sum);
+
     }
 
     public void OpenStatistics(View view){
@@ -60,10 +124,14 @@ public class MainActivity extends AppCompatActivity {
 
         Toast.makeText(this, "Successful", Toast.LENGTH_SHORT).show();
 
+        LastToday();
+        SumToday();
+
+
     }
 
 
-    public void ResetData(){
+/*    public void ResetData(){
         dateTimes.clear();
         JSONHelper.exportToJSON(this, dateTimes, "data.json");
     }
@@ -83,7 +151,7 @@ public class MainActivity extends AppCompatActivity {
         });
         AlertDialog dialog = builder.create();
         dialog.show();
-    }
+    }*/
 
 
     public boolean isFilePresent(Context context, String fileName) {
@@ -111,5 +179,10 @@ public class MainActivity extends AppCompatActivity {
             Log.v("Ad","Permission is granted");
             return true;
         }
+    }
+
+    public void OpenSettings(View view){
+        Intent intent = new Intent(this, SettingsActivity.class);
+        startActivity(intent);
     }
 }

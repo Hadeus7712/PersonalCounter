@@ -14,6 +14,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.PersonalCounter"
         tools:targetApi="31">
+        <activity
+            android:name=".SettingsActivity"
+            android:exported="false"
+            android:label="@string/title_activity_settings" />
+
         <receiver
             android:name=".ButtonWidget"
             android:exported="false">

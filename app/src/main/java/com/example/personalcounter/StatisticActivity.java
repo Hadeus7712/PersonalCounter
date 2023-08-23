@@ -22,6 +22,8 @@ import android.widget.Toast;
 import java.time.DateTimeException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -93,6 +95,8 @@ public class StatisticActivity extends AppCompatActivity {
         return result;
     }
 
+
+
     private int SumByDay(DateTime dateTime){
 
         int result = 0;
@@ -111,7 +115,11 @@ public class StatisticActivity extends AppCompatActivity {
 
         textDays.setText("");
         for(int i = 0; i < 31; i++){
-            textDays.append((i + 1) +") " + SumByDay(new DateTime(dateTime.getYear(), dateTime.getMonth(), 1 + i)) + "\n");
+
+            int sum = SumByDay(new DateTime(dateTime.getYear(), dateTime.getMonth(), 1 + i));
+
+            if(sum != 0)
+                textDays.append((i + 1) +") " + sum + "\n");
         }
     }
 
@@ -126,6 +134,7 @@ public class StatisticActivity extends AppCompatActivity {
                     dateTime.getDay() == dateTimes.get(i).getDay()){
                 daySumCounter++;
                 textView.append(daySumCounter + ") " + dateTimes.get(i).getHour() + ":" + dateTimes.get(i).getMinute() + ":" + dateTimes.get(i).getSecond() + "\n");
+
             }
 
         }
@@ -136,8 +145,9 @@ public class StatisticActivity extends AppCompatActivity {
     }
 
     public void Return(View view){
-        Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
+        finish();
+        //Intent intent = new Intent(this, MainActivity.class);
+        //startActivity(intent);
     }
 
 
@@ -154,6 +164,8 @@ public class StatisticActivity extends AppCompatActivity {
                 result.add(dateTimes.get(i));
             }
         }
+
+        Collections.reverse(result);
 
         return result;
     }

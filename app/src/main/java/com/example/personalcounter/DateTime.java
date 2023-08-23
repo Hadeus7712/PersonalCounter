@@ -14,6 +14,8 @@ public class DateTime {
     int month;
     int year;
 
+    float price;
+
     DateTime(LocalDateTime localDateTime){
         this.second = localDateTime.getSecond();
         this.minute = localDateTime.getMinute();
@@ -51,6 +53,13 @@ public class DateTime {
 
     public int getYear() {
         return year;
+    }
+
+    public float getPrice(){
+        return price;
+    }
+    public void setPrice(float price) {
+        this.price = price;
     }
 
     @NonNull
